@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# performs ping and guides the usr when input fails
-if [[ $# -eq 1 ]]; then
-    ping -c 5 "${1}"
+# pings the passed ip 5 times
+if [ $# -eq 0 ]; then
+	echo 'Usage: 5-is_the_host_on_the_network {IP_ADDRESS}'
 else
-    echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
+	ping -c 5 "$1"
 fi
