@@ -2,24 +2,22 @@
 # Install nginx web server
 
 # Install NGINX
-sudo apt-get update
-sudo apt-get -y upgrade
+sudo apt-get update -y
 sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
 
 # error404 creation
 sudo touch /var/www/html/error404.html
 
 # Echoed texts
-echo 'Hello World' | sudo tee /var/www/html/index.nginx-debian.html
+echo 'Hello World!' | sudo tee /var/www/html/index.nginx-debian.html
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/error404.html
 
 # Search location in file and make changes to code
 search1="^\tlocation / {"
-string="\tlocation /redirect_me {\n\t\t return 301 \$scheme://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n\n\tlocation / {"
-string2="\terror_page 404 /error404.html;\n\n\tadd_header X-Served-By ${HOSTNAME};\n\n\tlocation / {"
-sudo sed -i "s@$search1@$string@" /etc/nginx/sites-enabled/default
-sudo sed -i "s@$search1@$string2@" /etc/nginx/sites-enabled/default
+string="\tlocation /redirect_me {\n\t\t return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n\n\tlocation / {"
+string2="\terror_page 404 /error404.html;\n\n\tadd_header X-Served-By \$HOSTNAME;\n\n\tlocation / {"
+sudo sed -i "s@$search1@$string@" /etc/nginx/sites-availabled/default
+sudo sed -i "s@$search1@$string2@" /etc/nginx/sites-available/default
 
 # Restart NGINX to save changes
 sudo service nginx restart
