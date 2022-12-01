@@ -1,25 +1,25 @@
 #!/usr/bin/python3
-"""
-Exports a list of things for each user 
-into a json file.
-"""
-
+""" Exports a list of data for each user into a json file """
 import json
+from os import sys
 import requests
 
-if __name__ == '__main__':
-    # assign values to variables #
-    users = requests.get(
-        "https://jsonplaceholder.typicode.com/users").json()
-    to_dos = requests.get(
-        "https://jsonplaceholder.typicode.com/todos").json()
 
-    # transfers info to the json file #
-    with open("todo_all_employees.json", 'w') as file:
-        todo_dict = {employee.get('id'): [{
-                'task': task.get('title'),
-                'username': employee.get('username'),
-                'completed': task.get('completed')
-            } for task in to_dos if employee.get('id') == task.get('userId')
-            ] for employee in users}
-        json.dump(todo_dict, file)
+if __name__ == "__main__":
+    user = requests.get("https://jsonplaceholder.typicode.com/users")
+    todos = requests.get("https://jsonplaceholder.typicode.com/todos")
+
+    file = "todo_all_employees.json"
+
+    with open(file, 'w') as f:
+        Dict = {}
+        for person in user.json():
+            id = person['id']
+            Dict[id] = []
+            for k in todos.json():
+                if k['userId'] == id:
+                    dictionary = {"username": person['username'],
+                                  "task": k['title'],
+                                  "completed": k['completed']}
+                    Dict[id].append(dictionary)
+        json.dump(Dict, f)
