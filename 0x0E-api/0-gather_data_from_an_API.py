@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This example will take the employees id number 
+This example will take the employees id number
 and return the amount of tasks done vs the total
 amount of tasks also listing what taks are done.
 """
